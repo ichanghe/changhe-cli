@@ -1,0 +1,44 @@
+#! /usr/bin/env node
+const program = require('commander')
+const chalk = require('chalk')
+const cleanArgs = (cmd)=>{
+    const args = {};
+    cmd.options.forEach(o => {
+       const key = o.long.slice(2)
+       if(cmd[key]){
+           args[key] = cmd[key]
+       }
+    });
+    return args;
+}
+program.command('create <app-name>')
+.description('create a new project')
+.option('-f, --force','overwrite target directory if it exists')
+.action((name,cmd)=>{
+    // crate模块
+    console.log(name,cleanArgs(cmd))
+})
+
+program.command('config [value]')
+.description('inspect and modify the config')
+.option('-g,--get <path>','get value form option')
+.option('-s,--set <path> <value>')
+.option('-d,--delete <path>','delete option from config')
+.action((name,cmd)=>{
+    console.log(name,cleanArgs(cmd))
+})
+program.command('ui').description('start and open changhe-cli ui')
+.description('start and open changhe-cli ui')
+.option('-p, --port <port>','prot used for the UI server')
+.command((cmd)=>{
+    // ui模块
+    console.log(cleanArgs(cmd))
+})
+
+program.on('--help',function(){
+    console.log(`Run ${chalk.cyan(`changhe-cli <command> --help`)}   show details`)
+})
+
+program.version(`changhe-cli@${require('../package.json').version}`)
+.usage(`<command>[option]`)
+program.parse(process.argv)
