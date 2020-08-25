@@ -17,6 +17,7 @@ program.command('create <app-name>')
 .action((name,cmd)=>{
     // crate模块
     console.log(name,cleanArgs(cmd))
+    require('../lib/create')(name,cleanArgs(cmd))
 })
 
 program.command('config [value]')
@@ -27,10 +28,10 @@ program.command('config [value]')
 .action((name,cmd)=>{
     console.log(name,cleanArgs(cmd))
 })
-program.command('ui').description('start and open changhe-cli ui')
+program.command('ui')
 .description('start and open changhe-cli ui')
-.option('-p, --port <port>','prot used for the UI server')
-.command((cmd)=>{
+.option('-p, --port <port>','port used for the UI Server')
+.action((cmd)=>{
     // ui模块
     console.log(cleanArgs(cmd))
 })
@@ -40,5 +41,5 @@ program.on('--help',function(){
 })
 
 program.version(`changhe-cli@${require('../package.json').version}`)
-.usage(`<command>[option]`)
+.usage(`<command> [option]`)
 program.parse(process.argv)
